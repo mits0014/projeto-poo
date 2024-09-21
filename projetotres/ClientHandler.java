@@ -20,23 +20,22 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
         try {
-            // Envolva o InputStreamReader no BufferedReader
             BufferedReader leitor = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             escritor = new PrintWriter(socket.getOutputStream(), true);
 
-            // Adicionar escritor à lista de escritores de forma sincronizada
+           
             synchronized (listaDeEscritores) {
                 listaDeEscritores.add(escritor);
             }
 
             String usuario = leitor.readLine();
-            transmitir(usuario + " entrou no chat");
+            transmitir(usuario + " entKOrou no chat");
 
             String mensagem;
-            // Correção na verificação da mensagem
+            
             while ((mensagem = leitor.readLine()) != null) {
                 if (mensagem.equals("Sair")){
-                    System.out.println(usuario + "saiu do chat");
+                    System.out.println(usuario + " saiu do chat");
                     break;  
                 } 
 
@@ -45,7 +44,7 @@ public class ClientHandler extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            // Remover o escritor da lista quando o cliente sair
+           
             synchronized (listaDeEscritores) {
                 listaDeEscritores.remove(escritor);
             }
@@ -58,7 +57,6 @@ public class ClientHandler extends Thread {
     }
 
     private void transmitir(String mensagem) {
-        // Transmitir mensagem para todos os escritores
         synchronized (listaDeEscritores) {
             for (PrintWriter escritor : listaDeEscritores) {
                 escritor.println(mensagem);

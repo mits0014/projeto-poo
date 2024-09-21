@@ -7,8 +7,8 @@ import java.net.Socket;
 
 public class Cliente {
 
-    private static final String HOST = "localhost"; // Endereço do servidor
-    private static final int PORTA = 8080; // Porta do servidor
+    private static final String HOST = "localhost";
+    private static final int PORTA = 8080;
 
     public static void main(String[] args) {
         try (Socket socket = new Socket(HOST, PORTA);
@@ -18,9 +18,7 @@ public class Cliente {
 
             System.out.println("Conectado ao chat! Informe seu nome de usuário:");
             String usuario = console.readLine();
-            escritor.println(usuario); // Enviar nome de usuário para o servidor
-
-            // Thread para ler mensagens do servidor
+            escritor.println(usuario);
             new Thread(() -> {
                 try {
                     String mensagemRecebida;
@@ -32,13 +30,13 @@ public class Cliente {
                 }
             }).start();
 
-            // Enviar mensagens para o servidor
+            
             String mensagem;
             while (!(mensagem = console.readLine()).equalsIgnoreCase("Sair")) {
-                escritor.println(mensagem); // Envia a mensagem para o servidor
+                escritor.println(mensagem); 
             }
 
-            escritor.println("Sair"); // Envia mensagem de saída para o servidor
+            escritor.println("Sair");
 
         } catch (IOException e) {
             e.printStackTrace();
